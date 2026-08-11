@@ -5,7 +5,6 @@ An automated resume parsing web application built with Python and Flask. The app
 ## 📌 Project Overview
 
 The parser reads the resume, extracts its useful information, and identifies:
-
 * Candidate Name
 * Email Address
 * Phone Number
@@ -79,8 +78,6 @@ Automated-Resume-Parser/
 
 ### 4. Activate the Virtual Environment
 
-For Windows:
-
     venv\Scripts\activate
 
 ### 5. Install Required Packages
@@ -94,9 +91,7 @@ Run the Flask application using:
     python app.py
 
 The application will start on the local Flask server.
-
 Open the displayed local URL in your web browser.    
-
 
 
 ## 🔍 How the Parser Works
