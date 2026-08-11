@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Resume Result </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+
+    <div class = "result-card">
+
+        <h1> Resume Analysis Result </h1>
+
+        <p><strong>Name:</strong> {{ data["Name"] }}</p>
+        <p><strong>Email:</strong> {{ data["E-mail"] }}</p>
+        <p><strong>Phone:</strong> {{ data["Phone"] }}</p>
+
+        <h3>Skills</h3>
+        <ul>
+            {% for skill in data["Skills"] %}
+                <li>{{ skill }}</li>
+            {% endfor %}
+        </ul>
+
+        <h3>Education</h3>
+        <ul>
+            {% for edu in data["Education"] %}
+                <li>{{ edu }}</li>
+            {% endfor %}
+        </ul>
+
+    </div>
+
+</body>
+</html>
