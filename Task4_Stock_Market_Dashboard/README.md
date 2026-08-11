@@ -111,7 +111,7 @@ The dashboard will open in your web browser.
 
 ### Stock Dashboard
 
-![Stock Dashboard](screenshots/dashboard.png)
+![Stock Dashboard](screenshot/dashboard.png)
 
 
 ## 🎯 Project Objective
