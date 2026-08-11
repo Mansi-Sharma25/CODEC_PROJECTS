@@ -1,6 +1,6 @@
 # Automated Resume Parser
 
-An automated resume parsing system built with Python that extracts important candidate information from PDF resumes. The project uses **PDFPlumber** to read resume content and **Regular Expressions** to identify contact details, while keyword-based matching is used to detect skills and education-related information.
+An automated resume parsing web application built with Python and Flask. The application allows users to upload PDF resumes, automatically extracts important candidate information, stores the extracted data in a SQLite database and provides a search functionality to find stored candidates. The project uses **PDFPlumber** to read resume content and **Regular Expressions** to identify contact details, while keyword-based matching is used to detect skills and education-related information.
 
 ## 📌 Project Overview
 
@@ -22,8 +22,8 @@ The extracted information is returned in a structured format that can be further
 * 📱 Extracts Indian phone numbers
 * 💻 Detects predefined technical skills
 * 🎓 Identifies education-related keywords
-* 📊 Returns extracted information in structured dictionary format
-* ⚡ Simple and lightweight Python implementation
+* 📊 Prevents duplicate candidates using email
+* ⚡ Simple Flask-based web interface
 
 ## 🛠️ Technologies Used
 
@@ -31,6 +31,7 @@ The extracted information is returned in a structured format that can be further
 * **HTML**
 * **CSS**
 * **SQLite**
+* **Flask**
 * **PDFPlumber** – for extracting text from PDF files
 * **Regular Expressions (Regex)** – for extracting emails and phone numbers
 * **Keyword Matching** – for identifying skills and education information
@@ -40,114 +41,113 @@ The extracted information is returned in a structured format that can be further
 ```text
 Automated-Resume-Parser/
 │
-├── resume_parser.py
-├── resume.pdf
+├── app.py
+├── pdf_parser.py
+├── .gitignore
 ├── requirements.txt
-└── README.md
+├── README.md
+│
+├── templates/
+│   ├── index.html
+│   └── result.html
+│
+├── static/
+│   └── style.css
+│
+└── screenshots/
+    ├── main_page.png
+    ├── resume_analysis.png
+    └── search_candidate.png
+
+
 ```
 
-> `resume.pdf` is only an example/test resume. You can replace it with any PDF resume you want to analyze.
 
 ## ⚙️ Installation
 
 ### 1. Clone the Repository
 
-```bash
-git clone https://github.com/your-username/Automated-Resume-Parser.git
-```
+    git clone https://github.com/Mansi-Sharma25/CODEC_PROJECTS.git
 
 ### 2. Open the Project Folder
 
-```bash
-cd Automated-Resume-Parser
-```
+    cd Task2_Automated_Resume_Parser
 
-### 3. Install Required Library
+### 3. Create a Virtual Environment
 
-```bash
-pip install pdfplumber
-```
+    python -m venv venv
 
-Or install all dependencies using:
+### 4. Activate the Virtual Environment
 
-```bash
-pip install -r requirements.txt
-```
+For Windows:
 
-### Example Output
+    venv\Scripts\activate
 
-```text
-{
-    'Name': 'Mansi Sharma',
-    'E-mail': ['example@gmail.com'],
-    'Phone': ['9876543210'],
-    'Skills': ['Python', 'C++', 'HTML', 'CSS'],
-    'Education': ['B.Tech']
-}
-```
+### 5. Install Required Packages
+
+    pip install -r requirements.txt
+
+## ▶️ Running the Application
+
+Run the Flask application using:
+
+    python app.py
+
+The application will start on the local Flask server.
+
+Open the displayed local URL in your web browser.    
+
+
 
 ## 🔍 How the Parser Works
 
-### 1. PDF Text Extraction
+### Step 1: Upload Resume
 
-PDFPlumber opens the resume PDF and extracts text from each page.
+The user uploads a PDF resume through the web interface.
 
-```python
-with pdfplumber.open(pdf_path) as resume_file:
-```
+### Step 2: Validate the File
 
-The text from all pages is combined into a single string.
+The application checks whether a file has been selected and whether the uploaded file is a PDF.
 
-### 2. Email Extraction
+### Step 3: Extract Resume Information
 
-Regular Expressions are used to find email addresses from the extracted text.
+The PDF is processed using PDFPlumber.The parser extracts text from each page of the resume.
 
-```python
-emails = re.findall(r"\w+@\w+\.\w+", all_text)
-```
+### Step 4: Extract Candidate Details
 
-### 3. Phone Number Extraction
+Regular Expressions are used to identify:
+- Email addresses
+- Indian phone numbers
 
-The parser searches for Indian mobile numbers, including formats with optional `+91`, spaces, or hyphens.
+The parser also detects:
+- Candidate name
+- Technical skills
+- Education-related keywords
 
-### 4. Name Extraction
+### Step 5: Store Candidate Information
 
-The first line of the extracted resume text is considered the candidate's name.
+The extracted information is stored in a SQLite database named `resume_parser.db`.
 
-```python
-lines = all_text.split('\n')
-name = lines[0]
-```
+The database contains fields for:
+- Name
+- Email
+- Phone
+- Skills
+- Education
 
-### 5. Skills Detection
+### Step 6: Prevent Duplicate Records
 
-The parser checks the extracted resume text against a predefined list of technical skills such as:
+Before inserting a candidate, the application checks whether the email already exists in the database.
+If the candidate already exists, the application displays a duplicate-record message instead of storing the same candidate again.
 
-* Python
-* C++
-* Java
-* SQL
-* Flask
-* Django
-* HTML
-* CSS
-* JavaScript
+### Step 7: Search Candidates
 
-If a skill is found in the resume, it is added to the extracted skills list.
-
-### 6. Education Detection
-
-The parser searches for education-related keywords such as:
-
-* B.Tech
-* B.E.
-* M.Tech
-* MCA
-* BCA
-* Bachelor
-* Master
-
-The detected keywords are stored in the education section of the output.
+The application provides a search feature where candidates can be searched using:
+- Name
+- Email
+- Phone
+- Skills
+- Education
 
 ## 📋 Extracted Information
 
@@ -159,6 +159,40 @@ The detected keywords are stored in the education section of the output.
 | Skills      | Keyword Matching             |
 | Education   | Keyword Matching             |
 
+## 🗄️ Database
+
+The project uses SQLite to store parsed candidate information.
+
+The database table contains:
+
+| Field | Description |
+|---|---|
+| ID | Unique candidate ID |
+| Name | Candidate name |
+| Email | Candidate email |
+| Phone | Candidate phone number |
+| Skills | Detected technical skills |
+| Education | Detected education information |
+
+The database file is generated locally when the application runs and is not included in the GitHub repository.
+
+## 📸 Screenshots
+
+### 🏠 Home Page
+
+![Home Page](screenshots/main_page.png)
+
+
+### 📄 Resume Analysis Result
+
+![Resume Analysis Result](screenshots/resume_analysis.png)
+
+
+### 🔍 Search Candidates
+
+![Search Candidates](screenshots/search_candidate.png)
+
+
 ## 🎯 Project Outcome
 
 The project demonstrates how resume data can be automatically extracted and organized using Python. It can serve as a basic foundation for an automated resume screening system where candidate information can later be stored, searched, and analyzed.
@@ -168,13 +202,11 @@ The project demonstrates how resume data can be automatically extracted and orga
 The project can be extended with:
 
 * Support for DOC/DOCX resumes
-* More advanced skill extraction
-* NLP-based resume analysis using spaCy
-* Web interface using Flask
-* Database integration using PostgreSQL or SQLite
+* More advanced NLP-based information extraction using spaCy
+* Database integration using PostgreSQL for large-scale applications
 * Searchable candidate database
 * Improved name and education extraction
-* Resume ranking based on required skills
+* Resume ranking based on job requirements
 
 ## 👩‍💻 Author
 
