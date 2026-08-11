@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title> Automated Resume Parser </title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+</head>
+
+<body>
+    
+    <div class="upload-card">
+
+        <h1> Automated Resume Parser </h1>
+        <p> Upload your resume in PDF format </p>
+
+        <form action="/upload" method="POST" enctype="multipart/form-data">
+            <input type="file" name="file" accept=".pdf" required>
+            <button type="submit">Upload Resume</button>
+        </form>
+
+    </div>
+
+    <hr>
+
+    <div class="search-section">
+
+        <h2>Search Candidates</h2>
+
+        <form action="/search" method="GET">
+            <input type="text" name="q" placeholder="Search by name or skill">
+            <button type="submit">Search</button>
+        </form>
+
+    </div>
+
+
+    {% if query %}
+    <h3>Search Results for "{{ query }}"</h3>
+
+    {% for candidate in candidates %}
+        <div class="candidate-card">
+
+            <h2>{{ candidate[1] }}</h2>
+
+            <p><strong>Email:</strong> {{ candidate[2] }}</p>
+            <p><strong>Phone:</strong> {{ candidate[3] }}</p>
+            <p><strong>Skills:</strong> {{ candidate[4] }}</p>
+            <p><strong>Education:</strong> {{ candidate[5] }}</p>
+
+        </div>
+
+    {% else %}
+        <p>No matching candidates found.</p>
+    {% endfor %}
+
+{% endif %}
+
+</body>
+</html>
