@@ -1,0 +1,13 @@
+# Virtual environment
+venv/
+
+# Python cache files
+__pycache__/
+*.pyc
+
+# Uploaded resume files
+uploads/
+*.pdf
+
+# SQLite database
+*.db
